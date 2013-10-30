@@ -261,7 +261,11 @@ function ENT:smhSetFrame(f)
 		Ref:Sleep()
 		Ref:SetPos(T.Pos)
 		Ref:SetAngles(T.Ang)
-		self:ManipulateBoneScale(b,T.Inf);
+
+		if self:GetClass() == "prop_ragdoll" then
+			self:ManipulateBoneScale(b,T.Inf);
+		end
+
 	end
 	for i=0,self:GetPhysicsObjectCount()-1 do
 		if FT["bone"..i].Freezed or GetConVar("smh_freezeall"):GetInt() == 1 then
@@ -269,14 +273,18 @@ function ENT:smhSetFrame(f)
 		end
 		self:GetPhysicsObjectNum(i):Wake()
 	end
-	for i=0,self:GetBoneCount()-1 do
-		if self:TranslateBoneToPhysBoneNew(i) == -1 then
-			local T = FT["mbone"..i];
-			self:ManipulateBonePosition(i,T.Vector);
-			self:ManipulateBoneAngles(i,T.Angle);
-			self:ManipulateBoneScale(i,T.Scale);
+
+	if self:GetClass() == "prop_ragdoll" then
+		for i=0,self:GetBoneCount()-1 do
+			if self:TranslateBoneToPhysBoneNew(i) == -1 then
+				local T = FT["mbone"..i];
+				self:ManipulateBonePosition(i,T.Vector);
+				self:ManipulateBoneAngles(i,T.Angle);
+				self:ManipulateBoneScale(i,T.Scale);
+			end
 		end
 	end
+
 	self:SetFlexScale(FT["flexscale"])
 	for i=0,self:GetFlexNum()-1 do
 		self:SetFlexWeight(i,FT["flex"..i])
