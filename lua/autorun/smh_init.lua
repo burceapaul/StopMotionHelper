@@ -328,7 +328,6 @@ function ENT:smhSetPic(f,p/*,middle*/,ss,es)
 		obj:SetAngles(ang)
 		obj:EnableMotion(false)
 		obj:Wake()
-		return
 	end
 	//Using EAS the weld clipping bug is gone. Finally!
 	for b=0,self:GetBoneCount()-1 do
